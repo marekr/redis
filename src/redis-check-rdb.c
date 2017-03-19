@@ -41,7 +41,7 @@
 
 void createSharedObjects(void);
 void rdbLoadProgressCallback(rio *r, const void *buf, size_t len);
-long long rdbLoadMillisecondTime(rio *rdb);
+PORT_LONGLONG rdbLoadMillisecondTime(rio *rdb);
 int rdbCheckMode = 0;
 
 struct {
@@ -114,7 +114,7 @@ void rdbCheckError(const char *fmt, ...) {
 
     printf("--- RDB ERROR DETECTED ---\n");
     printf("[offset %llu] %s\n",
-        (unsigned long long) (rdbstate.rio ?
+        (PORT_ULONGLONG)(rdbstate.rio ?
             rdbstate.rio->processed_bytes : 0), msg);
     printf("[additional info] While doing: %s\n",
         rdb_check_doing_string[rdbstate.doing]);
@@ -140,7 +140,7 @@ void rdbCheckInfo(const char *fmt, ...) {
     va_end(ap);
 
     printf("[offset %llu] %s\n",
-        (unsigned long long) (rdbstate.rio ?
+        (PORT_ULONGLONG)(rdbstate.rio ?
             rdbstate.rio->processed_bytes : 0), msg);
 }
 
@@ -160,9 +160,9 @@ void rdbCheckSetError(const char *fmt, ...) {
  * if the crash is due to broken content. */
 #ifndef _WIN32
 void rdbCheckHandleCrash(int sig, siginfo_t *info, void *secret) {
-	UNUSED(sig);
-	UNUSED(info);
-	UNUSED(secret);
+    UNUSED(sig);
+    UNUSED(info);
+    UNUSED(secret);
 #else
 void rdbCheckHandleCrash(int sig) {
 #endif
@@ -188,7 +188,7 @@ int redis_check_rdb(char *rdbfilename) {
     uint64_t dbid;
     int type, rdbver;
     char buf[1024];
-    long long expiretime, now = mstime();
+    PORT_LONGLONG expiretime, now = mstime();
     FILE *fp;
     rio rdb;
 

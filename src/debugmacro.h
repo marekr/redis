@@ -43,12 +43,12 @@
 #else
 #define D(...)                                                               \
     do {                                                                     \
-		char path[MAX_PATH];												 \
-		ExpandEnvironmentStrings("%TEMP%\\tempfile", path, MAX_PATH);		 \
-		FILE *fp = fopen(path, "a");										 \
+        char path[MAX_PATH];												 \
+        ExpandEnvironmentStrings("%TEMP%\\tempfile", path, MAX_PATH);		 \
+        FILE *fp = fopen(path, "a");										 \
         fprintf(fp,"%s:%s:%d:\t", __FILE__, __func__, __LINE__);             \
         fprintf(fp,__VA_ARGS__);                                             \
         fprintf(fp,"\n");                                                    \
         fclose(fp);                                                          \
-	    } while (0);
+    } while (0);
 #endif

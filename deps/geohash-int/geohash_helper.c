@@ -35,11 +35,12 @@
  */
 
 #include "geohash_helper.h"
-#include <math.h>
 
 #ifdef _WIN32
 #define inline __inline
 #define _USE_MATH_DEFINES // for C
+#include <math.h>
+#else
 #include <math.h>
 #endif
 
