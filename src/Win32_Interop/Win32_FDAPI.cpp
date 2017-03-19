@@ -44,6 +44,7 @@ extern "C" {
 fdapi_accept accept = NULL;
 fdapi_access access = NULL;
 fdapi_bind bind = NULL;
+fdapi_chmod chmod = NULL;
 fdapi_connect connect = NULL;
 fdapi_fcntl fcntl = NULL;
 fdapi_fstat fdapi_fstat64 = NULL;
@@ -71,6 +72,7 @@ fdapi_select select = NULL;
 fdapi_setsockopt setsockopt = NULL;
 fdapi_socket socket = NULL;
 fdapi_write write = NULL;
+fdapi_umask umask = NULL;
 }
 
 auto f_WSACleanup = dllfunctor_stdcall<int>("ws2_32.dll", "WSACleanup");
@@ -1057,6 +1059,14 @@ u_int64 FDAPI_lseek64(int rfd, u_int64 offset, int whence) {
     return -1;
 }
 
+int FDAPI_umask(unsigned int mask) {
+	return crt_umask(mask);
+}
+
+int FDAPI_chmod(const char* pathname, int mode) {
+	return crt_chmod(pathname, mode);
+}
+
 intptr_t FDAPI_get_osfhandle(RFD rfd) {
     try {
         int crt_fd = RFDMap::getInstance().lookupCrtFD(rfd);
@@ -1192,7 +1202,8 @@ private:
 
         accept = FDAPI_accept;
         access = FDAPI_access;
-        bind = FDAPI_bind;
+		bind = FDAPI_bind;
+		chmod = FDAPI_chmod;
         connect = FDAPI_connect;
         fcntl = FDAPI_fcntl;
         fdapi_fstat64 = (fdapi_fstat) FDAPI_fstat64;
@@ -1220,6 +1231,7 @@ private:
         setsockopt = FDAPI_setsockopt;
         socket = FDAPI_socket;
         write = FDAPI_write;
+		umask = FDAPI_umask;
     }
 
     ~Win32_FDSockMap() {

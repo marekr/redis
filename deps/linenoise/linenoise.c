@@ -106,8 +106,10 @@
 #ifdef _WIN32
 #include "../../src/Win32_Interop/Win32_Portability.h"
 #include "../../src/Win32_Interop/win32fixes.h"
+#include "../../src/Win32_Interop/Win32_FDAPI.h"
 #define UNUSED(V) ((void) V)
 #include "../../src/Win32_Interop/win32_ANSI.h"
+#include "../../src/Win32_Interop/win32_types.h"
 #else
 #include <termios.h>
 #include <unistd.h>
@@ -121,8 +123,6 @@
 #include <ctype.h>
 #include <sys/stat.h>
 #include <sys/types.h>
-#include <sys/ioctl.h>
-#include <unistd.h>
 #include "linenoise.h"
 
 #define LINENOISE_DEFAULT_HISTORY_MAX_LEN 100
@@ -1341,7 +1341,7 @@ int linenoiseHistorySave(const char *filename) {
     int j;
 
     fp = fopen(filename,"w");
-    umask(old_umask);
+	umask(old_umask);
     if (fp == NULL) return -1;
     chmod(filename,S_IRUSR|S_IWUSR);
     for (j = 0; j < history_len; j++)

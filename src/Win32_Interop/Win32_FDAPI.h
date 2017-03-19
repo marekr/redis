@@ -139,7 +139,9 @@ typedef u_int (*fdapi_ntohl)(u_int netlong);
 typedef int (*fdapi_isatty)(int fd);
 typedef int (*fdapi_access)(const char *pathname, int mode);
 typedef u_int64 (*fdapi_lseek64)(int fd, u_int64 offset, int whence);
-typedef int (*fdapi_fstat)(int fd, struct __stat64 *buffer);
+typedef int(*fdapi_fstat)(int fd, struct __stat64 *buffer);
+typedef int(*fdapi_umask)(unsigned int mask);
+typedef int(*fdapi_chmod)(const char* pathname, int mode);
 
 typedef BOOL fnWSIOCP_CloseSocketStateRFD(int rfd);
 
@@ -147,6 +149,13 @@ typedef BOOL fnWSIOCP_CloseSocketStateRFD(int rfd);
 #define X_OK    0
 #define W_OK    2
 #define R_OK    4
+
+//umask() definitions
+#define S_IXUSR _S_IEXEC
+#define S_IWUSR _S_IWRITE
+#define S_IRWXO (_S_IREAD | _S_IWRITE | _S_IEXEC)
+#define S_IRWXG S_IRWXO
+#define S_IRUSR _S_IREAD
 
 #ifdef __cplusplus
 extern "C"
@@ -157,6 +166,7 @@ extern "C"
 extern fdapi_accept         accept;
 extern fdapi_access         access;
 extern fdapi_bind           bind;
+extern fdapi_chmod          chmod;
 extern fdapi_connect        connect;
 extern fdapi_fcntl          fcntl;
 extern fdapi_fstat          fdapi_fstat64;
@@ -184,6 +194,7 @@ extern fdapi_select         select;
 extern fdapi_setsockopt     setsockopt;
 extern fdapi_socket         socket;
 extern fdapi_write          write;
+extern fdapi_umask          umask;
 
 // Other FD based APIs
 void    FDAPI_SaveSocketAddrStorage(int rfd, SOCKADDR_STORAGE* socketAddrStorage);

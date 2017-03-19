@@ -85,3 +85,13 @@ int crt_access(const char *pathname, int mode) {
 __int64 crt_lseek64(int fd, __int64 offset, int origin) {
     return _lseeki64(fd, offset, origin);
 }
+
+int crt_umask(unsigned int mask) {
+	//posix api has the type as mode_t which is usually unsigned but windows is int, harmless (bitmasks)
+	return _umask((int)mask);
+}
+
+int crt_chmod(const char *pathname, int mode)
+{
+	return _chmod(pathname, mode);
+}

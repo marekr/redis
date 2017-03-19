@@ -67,6 +67,9 @@ extern "C"
 #define WIN32_ONLY(x) x
 #define POSIX_ONLY(x)
 #define inline __inline
+
+#define __func__ __FUNCTION__
+
 #else
 #define IF_WIN32(x, y) y
 #define WIN32_ONLY(x)

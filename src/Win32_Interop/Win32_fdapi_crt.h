@@ -39,3 +39,5 @@ int crt_fileno(FILE* file);
 int crt_isatty(int fd);
 int crt_access(const char *pathname, int mode);
 __int64 crt_lseek64(int fd, __int64 offset, int origin);
+int crt_umask(unsigned int mask);
+int crt_chmod(const char *pathname, int mode);
