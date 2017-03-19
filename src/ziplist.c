@@ -329,7 +329,7 @@ unsigned int zipRawEntryLength(unsigned char *p) {
 
 /* Check if string pointed to by 'entry' can be encoded as an integer.
  * Stores the integer value in 'v' and its encoding in 'encoding'. */
-int zipTryEncoding(unsigned char *entry, unsigned int entrylen, long long *v, unsigned char *encoding) {
+int zipTryEncoding(unsigned char *entry, unsigned int entrylen, PORT_LONGLONG *v, unsigned char *encoding) {
     PORT_LONGLONG value;
 
     if (entrylen >= 32 || entrylen == 0) return 0;
