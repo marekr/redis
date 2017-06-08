@@ -554,7 +554,7 @@ static int anetSetExclusiveAddr(char *err, int fd) {
 
 static int _anetTcpServer(char *err, int port, char *bindaddr, int af, int backlog)
 {
-    int s, rv;
+    int s = -1, rv;
     char _port[6];  /* strlen("65535") */
     struct addrinfo hints, *servinfo, *p;
 
@@ -583,6 +583,7 @@ static int _anetTcpServer(char *err, int port, char *bindaddr, int af, int backl
     }
 
 error:
+    if (s != -1) close(s);
     s = ANET_ERR;
 end:
     freeaddrinfo(servinfo);
